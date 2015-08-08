@@ -4,6 +4,7 @@ import random
 import numpy as np
 import astroML
 
+#TRYYING TO CHANGE OLD SVM CODE FOR NEW GALAXYZOO SET WITH 16 ATTRIBUTES PER GALAXY
 
 #Learning a support vector machine, very popular type of linear classifier
 #Just using binary-labeled 2-D vectors for now, [x1, y1] --> -1 (or 1)
