@@ -14,9 +14,15 @@ labels = np.loadtxt("GalaxyZoo1_DR_table2.txt", delimiter = ",", skiprows = 1, u
 
 #also should work: ellipticals = data[data[:, 12] == 1]
 isElliptical = data[:,11] #corresponds to col 14 of real data file, which is the elliptical bool value
+isSpiral = data[:,10]
+isUncertain = data[:,12]
 
 ellipticals = data[isElliptical == 1]
 print ellipticals[:5, :5]
+
+spirals = data[isSpiral == 1]
+uncertains = data[isUncertain == 1]
+
 counter = 0
 for line in data:
     counter += 1
