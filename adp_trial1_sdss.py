@@ -18,12 +18,13 @@ isSpiral = data[:,10]
 isUncertain = data[:,12]
 
 ellipticals = data[isElliptical == 1]
-print ellipticals[:, :5]
+print ellipticals[:, :7]
 
 spirals = data[isSpiral == 1]
 uncertains = data[isUncertain == 1]
 
 print len(ellipticals), len(spirals), len(uncertains), len(ellipticals) + len(spirals) + len(uncertains)
+#numbers add to 667944, NICE! :) (correct total # of galaxies)
 
 counter = 0
 for line in data:
