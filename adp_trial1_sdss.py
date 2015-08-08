@@ -7,7 +7,7 @@ from astroML.datasets import fetch_sdss_specgals
 np.set_printoptions(threshold = 'nan')
 
 #file = open("GalaxyZoo1_DR_table2.txt")
-data = np.loadtxt("GalaxyZoo1_DR_table2.txt", delimiter = ",", skiprows = 1, usecols = (3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14))
+data = np.loadtxt("GalaxyZoo1_DR_table2.txt", delimiter = ",", skiprows = 1, usecols = (3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15))
 labels = np.loadtxt("GalaxyZoo1_DR_table2.txt", delimiter = ",", skiprows = 1, usecols = (13, 14, 15)) #only gets binary label cols (spiral, elliptical, uncertain)
 #top line with names of cols skipped by loadtxt:
 #OBJID,RA,DEC,NVOTE,P_EL,P_CW,P_ACW,P_EDGE,P_DK,P_MG,P_CS,P_EL_DEBIASED,P_CS_DEBIASED,SPIRAL,ELLIPTICAL,UNCERTAIN
@@ -18,10 +18,12 @@ isSpiral = data[:,10]
 isUncertain = data[:,12]
 
 ellipticals = data[isElliptical == 1]
-print ellipticals[:5, :5]
+print ellipticals[:, :5]
 
 spirals = data[isSpiral == 1]
 uncertains = data[isUncertain == 1]
+
+print len(ellipticals), len(spirals), len(uncertains), len(ellipticals) + len(spirals) + len(uncertains)
 
 counter = 0
 for line in data:
