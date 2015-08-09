@@ -18,15 +18,15 @@ isSpiral = data[:,10]
 isUncertain = data[:,12]
 
 ellipticals = data[isElliptical == 1]
-print ellipticals[:, :7]
+print ellipticals[:7, :]
 
 spirals = data[isSpiral == 1]
 uncertains = data[isUncertain == 1]
 
 print len(ellipticals), len(spirals), len(uncertains), len(ellipticals) + len(spirals) + len(uncertains)
 
-trainingSetEllipticals = ellipticals[:, :500] #check that these are first 500 and not last 500
-trainingSetSpirals = spirals[:, :500]
+trainingSetEllipticals = ellipticals[:500, :] #check that these are first 500 and not last 500
+trainingSetSpirals = spirals[:500, :]
 
 print len (trainingSetEllipticals), len(trainingSetSpirals)
 #numbers add to 667944, NICE! :) (correct total # of galaxies)
