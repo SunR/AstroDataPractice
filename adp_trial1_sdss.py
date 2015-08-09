@@ -18,7 +18,7 @@ isSpiral = data[:,10]
 isUncertain = data[:,12]
 
 ellipticals = data[isElliptical == 1]
-print ellipticals[:7, :]
+print ellipticals[:7, :] #print first 7 rows and all cols
 
 spirals = data[isSpiral == 1]
 uncertains = data[isUncertain == 1]
