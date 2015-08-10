@@ -4,7 +4,6 @@ import random
 import numpy as np
 import astroML
 
-#TRYYING TO CHANGE OLD SVM CODE FOR NEW GALAXYZOO SET WITH 16 ATTRIBUTES PER GALAXY
 
 #Learning a support vector machine, very popular type of linear classifier
 #Just using binary-labeled 2-D vectors for now, [x1, y1] --> -1 (or 1)
@@ -109,26 +108,51 @@ class SVM (object):
 #Now train SVM with Stochastic Gradient Descent
 #(linear classifier technique, simply adjusting a, b, c given inputs x, y)
 
-N = 6 #number of input vectors
-D = 2 #dimension of input vectors
+##N = 6 #number of input vectors
+##D = 2 #dimension of input vectors
 
-data = np.empty((6, 2))  #7 rows, 1 col, each row is 1 vector (or in this case array)
-labels = np.empty ((6,))
 
 #This can be done by reading an input file
-data[0] = np.array([1.2, 0.7])
-data[1] = np.array([-0.3, -0.5])
-data[2] = np.array([3.0, 0.1])
-data[3] = np.array([-0.1, -1.0])
-data[4] = np.array([-1.0, 1.1])
-data[5] = np.array([2.1, -3])
+data = np.loadtxt("GalaxyZoo1_DR_table2.txt", delimiter = ",", skiprows = 1, usecols = (3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15))
+labels = np.loadtxt("GalaxyZoo1_DR_table2.txt", delimiter = ",", skiprows = 1, usecols = (14,)) #only gets binary label col of elliptical
 
-labels[0] = 1
-labels[1] = -1
-labels[2] = 1
-labels[3] = -1
-labels[4] = -1
-labels[5] = 1
+#top line with names of cols skipped by loadtxt:
+#OBJID,RA,DEC,NVOTE,P_EL,P_CW,P_ACW,P_EDGE,P_DK,P_MG,P_CS,P_EL_DEBIASED,P_CS_DEBIASED,SPIRAL,ELLIPTICAL,UNCERTAIN
+
+for label in labels:
+    if label==0:
+        label = -1
+
+#also should work: ellipticals = data[data[:, 12] == 1]
+isElliptical = data[:,11] #corresponds to col 14 of real data file, which is the elliptical bool value
+isSpiral = data[:,10]
+isUncertain = data[:,12]
+
+ellipticals = data[isElliptical == 1]
+print ellipticals[:7, :] #print first 7 rows and all cols
+
+spirals = data[isSpiral == 1]
+uncertains = data[isUncertain == 1]
+
+print len(ellipticals), len(spirals), len(uncertains), len(ellipticals) + len(spirals) + len(uncertains)
+
+trainingSetEllipticals = ellipticals[:500, :] #check that these are first 500 and not last 500
+trainingSetSpirals = spirals[:500, :] #extracting first 500 spiral and elliptical to train model
+
+trainingSet = np.vstack((trainingSetEllipticals, trainingSetSpirals))
+trainingSetLabels = labels
+
+print trainingSet[:2, :]
+
+for i in range(len(trainingSetEllipticals) + len(trainingSetSpirals)):
+    if i <= len(trainingSetEllipticals):
+        trainingSetLabels[i] = 1
+    else:
+        trainingSetLabels[i] = -1
+
+data = trainingSet
+
+print len (trainingSetEllipticals), len(trainingSetSpirals)
 
 svm = SVM()
 
@@ -141,7 +165,7 @@ def evaluateTrainingAccuracy():
         x = Unit(x, 0.0)
         y = Unit(y, 0.0)
         unitOutput = svm.forward(x, y)
-        trueLabel = labels[i,]
+        trueLabel = trainingLabels[i,]
         predictedLabel = 1 if unitOutput.value > 0 else -1 #predicted label guessed by svm
         if predictedLabel == trueLabel:
             numCorrect += 1
@@ -153,7 +177,7 @@ for iter in range(1000):
     i = int(random.randrange(len(data)))
     x = data[i, 0]
     y = data[i, 1]
-    label = labels[i,]
+    label = trainingLabels[i,]
     svm.learnIteration(Unit(x, 0.0), Unit(y, 0.0), label)
 
     if iter % 25 == 0: #every 10 iterations print accuracy

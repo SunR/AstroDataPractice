@@ -26,7 +26,7 @@ uncertains = data[isUncertain == 1]
 print len(ellipticals), len(spirals), len(uncertains), len(ellipticals) + len(spirals) + len(uncertains)
 
 trainingSetEllipticals = ellipticals[:500, :] #check that these are first 500 and not last 500
-trainingSetSpirals = spirals[:500, :]
+trainingSetSpirals = spirals[:500, :] #extracting first 500 spiral and elliptical to train model
 
 print len (trainingSetEllipticals), len(trainingSetSpirals)
 #numbers add to 667944, NICE! :) (correct total # of galaxies)
