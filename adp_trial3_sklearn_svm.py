@@ -7,7 +7,7 @@ from sklearn import svm
 data = np.loadtxt("GalaxyZoo1_DR_table2.txt", delimiter = ",", skiprows = 1, usecols = (3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15))
 labels = np.loadtxt("GalaxyZoo1_DR_table2.txt", delimiter = ",", skiprows = 1, usecols = (14,)) #only gets binary label col of elliptical
 
-#IS IT NOT CLOSING THE FILE AFTER READING OR SOMETHING? HENCE ALTERNATING OUTPUTS? 
+#IS IT NOT CLOSING THE FILE AFTER READING OR SOMETHING? HENCE ALTERNATING OUTPUTS? -
 
 isElliptical = data[:,11] #corresponds to col 14 of real data file, which is the elliptical bool value
 isSpiral = data[:,10]
